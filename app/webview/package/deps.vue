@@ -1,18 +1,14 @@
 <template>
-  <a-collapse defaultActiveKey="1" :bordered="false">
-      <a-collapse-panel key="1" :style="customStyle">
-        <template slot="header">
-          This is panel header 1<a-icon type="question-circle-o" />
-        </template>
-        <p>{{text}}</p>
-      </a-collapse-panel>
-      <a-collapse-panel header="This is panel header 2" key="2" :style="customStyle">
-        <p>{{text}}</p>
-      </a-collapse-panel>
-      <a-collapse-panel header="This is panel header 3" key="3" :style="customStyle">
-        <p>{{text}}</p>
-      </a-collapse-panel>
-    </a-collapse>
+  <flex class="deps" blocked direction="column">
+    <div class="item" v-for="name in types" :key="name">
+      <div class="box" v-if="pkg[name] && Object.keys(pkg[name]).length">
+        <div class="title">{{name}}</div>
+        <div class="child">
+          <Label @click.native="redirect(key)" class="label" :title="key" icon="branches" v-for="(value, key) in pkg[name]" :key="key">{{value}}</Label>
+        </div>
+      </div>
+    </div>
+  </flex>
 </template>
 <script>
   export default {
@@ -22,11 +18,39 @@
     },
     data () {
       return {
-        text: `A dog is a type of domesticated animal.Known for its loyalty and faithfulness,it can be found as a welcome guest in many households across the world.`,
-        customStyle: 'background: #f7f7f7;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden'
+        types: [
+          'dependencies',
+          'devDependencies',
+          'peerDependencies',
+          'bundledDependencies',
+          'optionalDependencies'
+        ]
+      }
+    },
+    methods: {
+      redirect(name) {
+        this.$redirect('/package/' + name);
       }
     }
   }
 </script>
 <style lang="less" scoped>
+.deps{
+  .item{
+    margin-bottom: 20px;
+    .title{
+      text-transform: capitalize;
+      padding: 5px 0;
+      color:#FC4D47;
+    }
+    .child{
+      .label{
+        margin: 5px 10px;
+        margin-left: 0;
+        float: left;
+        cursor: pointer;
+      }
+    }
+  }
+}
 </style>

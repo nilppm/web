@@ -44,6 +44,7 @@
     border: 1px solid @border-color;
     border-left: 0;
     border-radius: 0 @border-radius @border-radius 0;
+    background-color: #fff;
   }
 }
 </style>

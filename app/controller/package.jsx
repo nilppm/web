@@ -17,7 +17,7 @@ export default class {
   async RenderPackagePageWithScopePkgnameAndVersion({ Service }) {
     const ctx = this.ctx;
     Service.PackageService.getPackageInfo(ctx, `@${ctx.params.scope}/${ctx.params.pkgname}`, ctx.params.version);
-    return <PackagePage state={ctx.state} />
+    return <PackagePage state={ctx.state} vered />
   }
 
   @Http.Get('/@:scope/:pkgname')
@@ -33,7 +33,7 @@ export default class {
   async RenderPackagePageWithPkgnameAndVersion({ Service }) {
     const ctx = this.ctx;
     Service.PackageService.getPackageInfo(ctx, ctx.params.pkgname, ctx.params.version);
-    return <PackagePage state={ctx.state} />
+    return <PackagePage state={ctx.state} vered />
   }
 
   @Http.Get('/:pkgname')

@@ -7,22 +7,21 @@
             <a-icon type="hdd" theme="twoTone" twoToneColor="#DE3C35" />
             <div>
               <div>{{state.pkg.data.name}}</div>
-              <flex class="desc" valign="middle">
-                <img :src="state.pkg.data.author.avatar" alt=""> {{state.pkg.data.author.nick}} • Published {{time | Ago}}
+              <flex class="desc" valign="middle" v-if="state.pkg.data.author">
+                <img :src="state.pkg.data.author.avatar" :alt="state.pkg.data.author.nick" /> {{state.pkg.data.author.nick}} <span v-if="state.pkg.data.time">• Published {{time | Ago}}</span>
               </flex>
             </div>
           </flex>
           <flex class="right" valign="middle" fulled>
             <Label title="Version" icon="crown" theme="filled">{{state.pkg.data.version}}</Label>
-            <Label title="Published" icon="fire" theme="filled">{{state.pkg.data._nilppm ? 'Private' : 'Public'}}</Label>
+            <Label title="Publish" icon="fire" theme="filled">{{state.pkg.data._nilppm ? 'Private' : 'Public'}}</Label>
           </flex>
         </flex>
         <div class="description" v-if="state.pkg.data.description">{{state.pkg.data.description}}</div>
         <ul class="tabs">
           <li :class="{active: current==='readme'}" @click="current='readme'"><a-icon type="read" />Readme</li>
           <li :class="{active: current==='deps'}" @click="current='deps'"><a-icon type="cluster" />Dependencies</li>
-          <li :class="{active: current==='versions'}" @click="current='versions'"><a-icon type="crown" />Versions</li>
-          <li :class="{active: current==='downloads'}" @click="current='downloads'"><a-icon type="cloud-download" />Downloads</li>
+          <li :class="{active: current==='versions'}" @click="current='versions'" v-if="state.pkg.data.versions"><a-icon type="crown" />Versions</li>
         </ul>
       </div>
     </div>
@@ -42,7 +41,12 @@
                 <rect y="7.5" width="1.9" height="1.9"></rect>
               </g>
             </svg> 
-            <code>cpm i <span>{{state.pkg.data.name}}</span></code>
+            <code>cpm i <span>{{state.pkg.data.name}}<span v-if="vered" class="vered">@{{state.pkg.data.version}}</span></span></code>
+          </flex>
+          <div class="title" v-if="state.pkg.data._downloads">Monthly downloads</div>
+          <flex class="downloads" v-if="state.pkg.data._downloads" blocked valign="bottom" >
+            <div class="label-total">{{monthDownload}}</div>
+            <flex class="chart" ref="chart" :span="1"></flex>
           </flex>
           <a-row class="row">
             <a-col :span="12" class="col">
@@ -61,7 +65,7 @@
               <div class="title">Repository</div>
               <div class="data"><a :href="state.pkg.data._repository.url" target="_blank"><a-icon :type="state.pkg.data._repository.type" />{{state.pkg.data._repository.type}}</a></div>
             </a-col>
-            <a-col :span="12" class="col">
+            <a-col :span="12" class="col" v-if="state.pkg.data.time">
               <div class="title">last publish</div>
               <div class="data">{{time | Ago}}</div>
             </a-col>
@@ -84,13 +88,10 @@
             <p v-else>找不到README.md</p>
           </div>
           <div v-else-if="current==='deps'">
-            deps
+            <PackageDepsPage :pkg="state.pkg.data"></PackageDepsPage>
           </div>
           <div v-else-if="current==='versions'">
             <PackageVersionsPage :pkg="state.pkg.data" />
-          </div>
-          <div v-else-if="current==='downloads'">
-            downloads
           </div>
         </div>
       </div>
@@ -109,22 +110,28 @@
   import PackageDepsPage from './deps';
   import PackageVersionsPage from './versions';
   import licenseUrl from 'oss-license-name-to-url';
+  import G2 from '@antv/g2';
   export default {
     name: 'PackagePage',
     props: {
-      state: Object
+      state: Object,
+      vered: Boolean
     },
     data() {
       return {
         current: 'readme'
       }
     },
-    renderError(h, e) {console.log(e)},
+    // renderError(h, e) {console.log(e)},
     components: {
       PackageDepsPage,
       PackageVersionsPage
     },
     computed: {
+      monthDownload() {
+        if (!this.state.pkg.data._downloads) return 0;
+        return this.state.pkg.data._downloads.month.reduce((value, data) => value + data.downloads, 0);
+      },
       author() {
         return typeof this.state.pkg.data.author !== 'string' ? this.state.pkg.data.author.name : this.state.pkg.data.author;
       },
@@ -140,6 +147,35 @@
         const exec = /http(s)?:\/\/([^\/]+)/.exec(this.state.pkg.data.homepage);
         if (!exec) return;
         return exec[2];
+      }
+    },
+    watch: {
+      ['state.pkg.data._downloads.month'](value) {
+        this.$nextTick(() => {
+          this.init();
+          this.render(value);
+        });
+      }
+    },
+    methods: {
+      init() {
+        if (this.chart) return;
+        this.chart = new G2.Chart({
+          container: this.$refs.chart.$el,
+          forceFit: true,
+          height: 50,
+          padding: [5, 0, 5, 5]
+        });
+      },
+      render(value) {
+        const chart = this.chart;
+        chart.source(value);
+        chart.legend(false);
+        chart.axis(false);
+        chart.tooltip({ type: 'mini' });
+        chart.area().position('day*downloads').shape('smooth').opacity(0.2);
+        chart.line().position('day*downloads').opacity(1).shape('smooth');
+        chart.render();
       }
     }
   }
@@ -163,6 +199,7 @@
   }
   .content{
     margin-right: 360px;
+    position: relative;
   }
   .sidebar{
     float: right;
@@ -183,6 +220,14 @@
       color:#ccc;
       padding-top: 10px;
     }
+    .downloads{
+      .label-total{
+        padding-right: 15px;
+      }
+      .chart{
+        height: 50px;
+      }
+    }
     .xcode{
       border: 1px solid #eee;
       border-left: 6px solid #e1e1e1;
@@ -198,6 +243,9 @@
       code{
         span{
           color:#FC4D47;
+          .vered{
+            color:#ccc;
+          }
         }
       }
       svg{
@@ -274,6 +322,7 @@
   }
   .description{
     margin-bottom: 24px;
+    width: 50%;
   }
   ul.tabs{
     list-style: none;
