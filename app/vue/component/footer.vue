@@ -10,43 +10,99 @@
           </div>
         </flex>
         <div class="text">
-          <a-icon type="trademark" /> 2019 Muzli by InVision · All Right Reserved. Read InVision's Privacy Policy and Terms of Service
+          <a-icon type="trademark" /> 2019 Nilppm by <a href="https://github.com/cevio" target="_blank">Cevio</a> · All Right Reserved. All interfaces are from the official <a href="https://www.npmjs.com/" target="_blank">NPM</a> registry.
         </div>
         <div class="linked">
           <a-icon type="github" />
           <a-icon type="ant-design" />
-          <a-icon type="wechat" />
+          <a-icon type="chrome" />
+          <a-icon type="html5" />
         </div>
       </div>
-      <div class="column extras">
+      <div class="column extras" v-if="store.server">
         <flex class="items" align="between" blocked>
           <flex class="item" :span="1" direction="column" blocked>
-            <div class="chunk">总包数 / <span>100</span></div>
-            <div class="chunk">总版本数 / <span>10034</span></div>
-            <div class="chunk">总用户数 / <span>345</span></div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Packages</span>
+                <span>{{store.server.total.package}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Versions</span>
+                <span>{{store.server.total.version}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Users</span>
+                <span>{{store.server.total.user}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Free Memory</span>
+                <span>{{cache}}</span>
+              </flex>
+            </div>
           </flex>
           <flex class="item right" :span="1" direction="column" blocked>
-            <div class="chunk">3910 / 天</div>
-            <div class="chunk">34498 / 周</div>
-            <div class="chunk">73845435 / 月</div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Downloads</span>
+                <span>{{store.server.total.download}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Day</span>
+                <span>{{store.server.total.dayDownloads}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Week</span>
+                <span>{{store.server.total.weekDownloads}}</span>
+              </flex>
+            </div>
+            <div class="chunk">
+              <flex blocked fulled align="between" valign="middle">
+                <span>Month</span>
+                <span>{{store.server.total.monthDownloads}}</span>
+              </flex>
+            </div>
           </flex>
         </flex>
       </div> 
       <div class="column fork">
-        <strong>The best websites right in your inbox</strong>
+        <strong>Thanks for using</strong>
         <div class="text">
-          We send you a fresh package of inspiration from around the web. No spam, only quality stuff. Promise. :)
+          If you feel that this program meets your needs and feels good during use, please help promote it. Of course, if you have any questions, you can use the <a href="https://github.com/nilppm/npm/issues" target="_blank">issue</a> to communicate with the author.
         </div>
         <flex class="subscribe" blocked align="between">
-          <button>Fork from github</button>
+          <a href="https://github.com/nilppm/npm" target="_blank" class="button">Fork / star on github</a>
         </flex>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import store from '../../../meta';
   export default {
-    name: 'Footer'
+    name: 'Footer',
+    data() {
+      return {
+        store
+      }
+    },
+    renderError(h, e) {console.log(e)},
+    computed: {
+      cache() {
+        if (!this.store.server) return '-';
+        return ((this.store.server.machine.freemem / this.store.server.machine.totalmem) * 100).toFixed(2) + '%';
+      }
+    }
   }
 </script>
 <style lang="less" scoped>
@@ -70,7 +126,7 @@
       width: 0;
     }
     .column{
-      display: inline;
+      display: block;
       float: left;
       margin-left: 10px;
       margin-right: 10px;
@@ -148,7 +204,7 @@
         .input{
           margin-right: 15px;
         }
-        button{
+        .button{
           background-color: #FC4D47;
           border-radius: 4px;
           color: #fff;

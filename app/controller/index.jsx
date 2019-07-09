@@ -4,20 +4,24 @@ import {
   Interface
 } from '@wox/wox';
 import IndexPage from '../webview/index.vue';
-import IndexService from '../service/index';
+import SearchPage from '../webview/search/index.vue';
+import PackageService from '../service/package';
+import store from '../../meta';
 
 @Controller
 export default class IndexController {
   @Http.Get
   async Home() {
-    const timestamp = await this.ctx.post('/timestamp');
-    return <IndexPage timestamp={timestamp} />
+    return <IndexPage />
   }
 
-  @Http.Post('/timestamp')
-  @Interface.Service('index', IndexService)
-  async TimeStamp({ Service }) {
-    const body = this.ctx.req.body || {};
-    return await Service.index.getTime(body.delay);
+  @Http.Get('/search')
+  @Interface.Service('PackageService', PackageService)
+  async SearchPackage({ Service }) {
+    const ctx = this.ctx;
+    store.searcher.q = ctx.query.q;
+    store.searcher.t = ctx.query.t;
+    Service.PackageService.getSearchResult(ctx, ctx.query);
+    return <SearchPage state={ctx.state} />
   }
 }

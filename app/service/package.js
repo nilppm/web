@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { message } from 'ant-design-vue';
 export default class {
   getPackageInfo(ctx, pathname, version) {
     let url = `/api/package/${pathname}`;
@@ -17,6 +18,7 @@ export default class {
     })/*.then(() => ctx.state.pkg.status = 2)*/.catch(e => {
       ctx.state.pkg.status = 1;
       ctx.state.pkg.message = e.message;
+      message.error(e.message);
     });
   }
 
@@ -25,5 +27,24 @@ export default class {
       pathname: url.split('/').slice(-2).join('/')
     });
     Vue.set(ctx.state.pkg.data._repository, 'meta', result);
+  }
+
+  getSearchResult(ctx, query) {
+    Vue.set(ctx.state, 'list', {
+      status: 0,
+      data: null,
+      message: null,
+      t: query.t,
+      p: query.p,
+      q: query.q,
+    });
+    ctx.ajax.get(`/api/search?q=${query.q}&s=${(Number(query.p) - 1) * 20}&t=${query.t}`).then(data => {
+      ctx.state.list.data = data;
+      ctx.state.list.status = 2;
+    }).catch(e => {
+      ctx.state.list.status = 1;
+      ctx.state.list.message = e.message;
+      message.error(e.message);
+    });
   }
 }

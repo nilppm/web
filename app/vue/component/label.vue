@@ -1,5 +1,5 @@
 <template>
-  <flex class="label">
+  <flex class="label" :class="{ disabled: disabled }">
     <flex class="left" valign="middle">
       <a-icon :type="icon" v-if="icon" :theme="theme" />
       {{title}}
@@ -13,7 +13,8 @@
     props: {
       title: String,
       icon: String,
-      theme: String
+      theme: String,
+      disabled: Boolean,
     }
   }
 </script>
@@ -45,6 +46,9 @@
     border-left: 0;
     border-radius: 0 @border-radius @border-radius 0;
     background-color: #fff;
+  }
+  &.disabled{
+    opacity: .3;
   }
 }
 </style>

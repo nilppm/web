@@ -3,34 +3,32 @@
     <flex class="wrap" fulled valign="middle" align="between">
       <Npm class="npm" v-redirect="'/'" />
       <flex valign="middle">
-        <form class="header-search" action="javascript:void(0);" @submit="beforeSubmit">
-          <a-input-search name="q" placeholder="Search Package ..." style="width: 300px" v-model="q" @search="beforeSubmit">
-            <a-select slot="addonBefore" v-model="t">
-              <a-select-option value="1"><a-icon type="lock" /> Private</a-select-option>
-              <a-select-option value="2"><a-icon type="unlock" /> Public</a-select-option>
-            </a-select>
-          </a-input-search>
-        </form>
-        <a-icon type="api" class="nav-icon" />
-        <a-icon type="read" class="nav-icon" />
-        <a-icon type="github" class="nav-icon" />
+        <a-input-search name="q" placeholder="vue react ..." style="width: 300px" v-model="store.searcher.q" @search="beforeSubmit">
+          <a-select slot="addonBefore" v-model="store.searcher.t">
+            <a-select-option value="1"><a-icon type="lock" /> Private</a-select-option>
+            <a-select-option value="2"><a-icon type="unlock" /> Public</a-select-option>
+          </a-select>
+        </a-input-search>
+        <a href="https://github.com/nilppm/cli" class="nav-icon" target="_blank"><a-icon type="api" /></a>
+        <a href="https://github.com/nilppm/npm/blob/master/README.md" class="nav-icon" target="_blank"><a-icon type="read" /></a>
+        <a href="https://github.com/nilppm/npm" class="nav-icon" target="_blank"><a-icon type="github" /></a>
       </flex>
     </flex>
   </flex>
 </template>
 <script>
+  import store from '../../../meta';
   export default {
     name: 'Header',
     data() {
       return {
-        q: '',
-        t: '1'
-      }
+        store
+      };
     },
     methods: {
       beforeSubmit() {
-        if (this.q) {
-          this.$redirect(`/search?q=${this.q}&s=0&t=${this.t}`);
+        if (this.store.searcher.q) {
+          this.$redirect(`/search?q=${this.store.searcher.q}&p=1&t=${this.store.searcher.t}`);
         }
         return false;
       }

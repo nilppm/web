@@ -97,13 +97,6 @@
       </div>
     </div>
     <div></div>
-    <!-- <flex class="main" blocked fulled> -->
-      <!-- <flex class="left" fulled v-if="state.pkg.data && state.pkg.data.versions">
-        <PackageVersionsPage :pkg="state.pkg.data" />
-      </flex> -->
-      <!-- <flex class="mid" :span="1" fulled overflow="auto"><Markdown v-if="state.pkg.data" :md="state.pkg.data.readme" /></flex>
-      <flex class="right" fulled><PackageDepsPage :pkg="state.pkg" /></flex> -->
-    <!-- </flex> -->
   </a-spin>
 </template>
 <script>

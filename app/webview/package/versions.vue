@@ -8,11 +8,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="version in versionData" :key="version.name" :class="{active: version.name === pkg.version}">
+    <tr v-for="version in versionData" :key="version.name" :class="{active: version.name === pkg.version, disabled: !!version.deprecated}">
       <td class="name">
-        <Label @click.native="redirect(version.name)" class="label" :title="version.label || 'none'" icon="crown">{{version.name}}</Label>
+        <Label @click.native="redirect(version.name)" class="label" :title="version.label || (version.deprecated ? 'deprecated' : null) || 'active'" icon="crown">{{version.name}}</Label>
       </td>
-      <td class="desc">{{pkg.versions[version.name].description}}</td>
+      <td class="desc">{{version.deprecated || pkg.versions[version.name].description}}</td>
       <td class="time">{{new Date(pkg.time[version.name]) | Ago}}</td>
     </tr>
   </tbody>
@@ -48,6 +48,7 @@
           distTags.push({
             name: _distTags[i],
             label: i,
+            deprecated: _distTags[i].deprecated,
           });
           keys.splice(index, 1);
         }
@@ -55,6 +56,7 @@
           return {
             name: value,
             label: null,
+            deprecated: this.pkg.versions[value].deprecated
           }
         });
         return distTags.concat(keys);
@@ -104,6 +106,9 @@
   }
   .time{
     max-width: 100px;
+  }
+  tr.disabled{
+    opacity: .3;
   }
 }
 </style>

@@ -1,116 +1,67 @@
 <template>
-  <div class="page">
-    <img src="https://raw.githubusercontent.com/woxjs/wox/master/logo.svg?sanitize=true" alt="vue logo" />
-    <h1>Wox.js Example</h1>
-    <p class="desc">A dynamic loader MVC architecture based on <a href="https://vuejs.org/" target="_blank">Vue.js</a> development which use web virtual service and web virtual request mode.</p>
-    <div class="links">
-      <a href="https://github.com/woxjs/wox" target="_blank">GITHUB</a>
-      <a href="https://github.com/woxjs/wox/issues" target="_blank">ISSUE</a>
-      <a href="https://woxjs.github.io/" target="_blank">DOCS</a>
-      <a href="https://www.npmjs.com/package/@wox/wox" target="_blank">NPM</a>
-      <a href="https://www.npmjs.com/package/@wox/cli" target="_blank">COMMAND</a>
+  <div class="wrap">
+    <h1>Node's Private Package Manager</h1>
+    <h2>Create the lightest and simple private source for you.</h2>
+    <p class="disclaimer">Businesses and individuals can enjoy the stability and convenience brought by this project. </p>
+    <p class="disclaimer" v-if="store.server && store.client">Client version: <span>v{{store.client.version}}</span> - Server version: <span>v{{store.server.version}}</span></p>
+    <div class="cmd">
+      <a href="https://github.com/nilppm/npm" class="cta" target="_blank">npm i @nilppm/npm</a>
     </div>
-    <h5>Web Virtual Request</h5>
-    <p style="text-align:center;">{{value}} <br /><button @click="add" :disabled="doing">Add timestamp, delay 800ms.</button></p>
-    <p class="copyright">Copyright@woxjs.github.io 2018-present</p>
   </div>
 </template>
 <script>
+  import store from '../../meta';
   export default {
     name: "IndexPage",
     data() {
       return {
-        doing: false,
-        value: null
-      }
-    },
-    props: {
-      timestamp: Number,
-    },
-    enter() {
-      this.value = this.timestamp;
-    },
-    methods: {
-      add() {
-        if (this.doing) return;
-        this.doing = true;
-        this.$post('/timestamp', { delay: 800 }).then(timestamp => {
-          this.value = timestamp;
-          this.doing = false;
-        }).catch(e => {
-          this.doing = false;
-          alert(e.message);
-        });
+        store
       }
     }
   }
 </script>
-<style lang="less">
-.page{
-  padding: 100px 0;
-  width:100%;
-  box-sizing: border-box;
-  .desc{
-    padding: 0px 15px;
+<style lang="less" scoped>
+.wrap{
+  width: 1140px;
+  margin: 0 auto;
+  h1 {
+    font-family: "Playfair Display", "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    text-align: center;
+    padding: 100px 0 30px 0;
+    margin: 0;
   }
-  h5{
-    border-top: 1px solid #f8f8f8;
-    padding-top: 20px;
-  }
-  a{
-    color:#46bd87;
-    transition:all .3s ease-in;
-    &:link,&:visited{
-      text-decoration:underline;
-    }
-    &:hover{
-      text-decoration: none;
-    }
-  }
-  img{
-    width: 100px;
-  }
-  &,h1, p, .links{
+  h2{
+    font-size: 18px;
+    font-weight: 300;
+    font-family: "Open Sans", sans-serif;
     text-align: center;
   }
-  .links{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    a{
-      padding: 0 8px;
-      font-size:12px;
+  p.disclaimer{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    text-align: center;
+    span{
+      color:#FC4D47;
     }
   }
-  .copyright{
-    padding: 30px 0;
-    font-size:10px;
-    color:rgba(0,0,0,.2);
-    transform: scale(.9);
-    a:link,a:visited{
-      color:rgba(0,0,0,.1);
-    }
-    a:hover{
-      color:#46bd87;
-    }
+  a.cta{
+    width: 330px;
+    display: inline-block;
+    background: #000;
+    background-size: 20px;
+    font-size: 18px;
+    color: #fff;
+    height: 64px;
+    line-height: 64px;
+    border-radius: 100px;
+    text-align: center;
+    margin: 100px 0 150px 0;
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
   }
-  button{
-    background-color: #46bd87;
-    color:#fff;
-    border: 1px solid transparent;
-    padding: 8px 15px;
-    border-radius: 4px;
-    margin-top: 20px;
-    transition: all .3s ease;
-    &:disabled{
-      background-color: #eee;
-      color:#ccc;
-    }
+  .cmd{
+    text-align: center;
   }
-}  
-</style>
-<style>
-html,body{
-  margin: 0;
-  padding: 0;
 }
 </style>

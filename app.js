@@ -1,3 +1,4 @@
+import './meta';
 import axios from 'axios';
 import Vue from 'vue';
 import 'ant-design-vue/dist/antd.css';
@@ -16,7 +17,7 @@ export default app => {
   // app.on('ServerDidCreated', () => {});
   // app.on('start', () => {});
   // app.on('stop', () => {});
-  app.on('error', console.error);
+  app.on('error', err => Antd.message.error(err.message));
   app.context.ajax = axios.create();
   app.context.ajax.interceptors.response.use(response => response.data);
   app.on('start', ctx => ctx.state = Vue.observable({}));
