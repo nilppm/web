@@ -49,11 +49,11 @@
             <flex class="chart" ref="chart" :span="1"></flex>
           </flex>
           <a-row class="row">
-            <a-col :span="12" class="col">
+            <a-col :span="12" class="col" v-if="state.pkg.data.version">
               <div class="title">Version</div>
               <div class="data">{{state.pkg.data.version}}</div>
             </a-col>
-            <a-col :span="12" class="col">
+            <a-col :span="12" class="col" v-if="state.pkg.data.license">
               <div class="title">License</div>
               <div class="data"><a :href="licenseUrl" target="_blank">{{state.pkg.data.license}}</a></div>
             </a-col>
@@ -115,7 +115,7 @@
         current: 'readme'
       }
     },
-    // renderError(h, e) {console.log(e)},
+    renderError(h, e) {console.log(e)},
     components: {
       PackageDepsPage,
       PackageVersionsPage
