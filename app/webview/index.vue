@@ -5,7 +5,7 @@
     <p class="disclaimer">Businesses and individuals can enjoy the stability and convenience brought by this project. </p>
     <p class="disclaimer" v-if="store.server && store.client">Client version: <span>v{{store.client.version}}</span> - Server version: <span>v{{store.server.version}}</span></p>
     <div class="cmd">
-      <a href="https://github.com/nilppm/npm" class="cta" target="_blank">npm i @nilppm/npm</a>
+      <a href="https://github.com/nilppm/npm" class="cta" target="_blank">npm i @nilppm/npm --registry={{host}}</a>
     </div>
   </div>
 </template>
@@ -15,15 +15,21 @@
     name: "IndexPage",
     data() {
       return {
-        store
+        store,
+        host: window.location.origin
       }
     }
   }
 </script>
 <style lang="less" scoped>
 .wrap{
-  width: 1140px;
+  width: 100%;
   margin: 0 auto;
+  background-image: url(../../images/z.png);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: 1145px 216px;
+  background-color: rgb(250, 251, 252);
   h1 {
     font-family: "Playfair Display", "Open Sans", sans-serif;
     font-weight: 400;
@@ -47,21 +53,20 @@
     }
   }
   a.cta{
-    width: 330px;
     display: inline-block;
-    background: #000;
+    background: rgb(36, 41, 46);
     background-size: 20px;
-    font-size: 18px;
+    font-size: 14px;
+    padding: 10px 42px 10px 42px;
     color: #fff;
-    height: 64px;
-    line-height: 64px;
-    border-radius: 100px;
+    border-radius: 5px;
     text-align: center;
-    margin: 100px 0 150px 0;
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 10px 30px;
+    font-family: "Open Sans", sans-serif;
   }
   .cmd{
     text-align: center;
+    margin: 100px 0 250px 0;
   }
 }
 </style>

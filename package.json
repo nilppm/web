@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The description of this project",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "build": "vue-cli-service build"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-service": "^3.9.2",
     "@wox/loader": "^2.0.3",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
