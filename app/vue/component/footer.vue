@@ -10,7 +10,7 @@
           </div>
         </flex>
         <div class="text">
-          <a-icon type="trademark" /> 2019 Nilppm by <a href="https://github.com/cevio" target="_blank">Cevio</a> · All Right Reserved. All interfaces are from the official <a href="https://www.npmjs.com/" target="_blank">NPM</a> registry.
+          <a-icon type="trademark" /> 2019 Nilppm by <a href="https://github.com/cevio" target="_blank">Author[Cevio]</a> · All Right Reserved. All interfaces are from the official <a href="https://www.npmjs.com/" target="_blank">NPM</a> registry.
         </div>
         <div class="linked">
           <a-icon type="github" />

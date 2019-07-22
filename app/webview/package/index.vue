@@ -43,8 +43,8 @@
             </svg> 
             <code>cpm i <span>{{state.pkg.data.name}}<span v-if="vered" class="vered">@{{state.pkg.data.version}}</span></span></code>
           </flex>
-          <div class="title" v-if="state.pkg.data._downloads">Monthly downloads</div>
-          <flex class="downloads" v-if="state.pkg.data._downloads" blocked valign="bottom" >
+          <div class="title" v-if="state.pkg.data._downloads && monthDownload > 0">Monthly downloads</div>
+          <flex class="downloads" v-if="state.pkg.data._downloads && monthDownload > 0" blocked valign="bottom" >
             <div class="label-total">{{monthDownload}}</div>
             <flex class="chart" ref="chart" :span="1"></flex>
           </flex>
@@ -115,14 +115,16 @@
         current: 'readme'
       }
     },
-    renderError(h, e) {console.log(e)},
+    renderError(h, e) {
+      this.$message.error(e.message);
+    },
     components: {
       PackageDepsPage,
       PackageVersionsPage
     },
     computed: {
       monthDownload() {
-        if (!this.state.pkg.data._downloads) return 0;
+        if (!this.state.pkg.data._downloads || !this.state.pkg.data._downloads.month) return 0;
         return this.state.pkg.data._downloads.month.reduce((value, data) => value + data.downloads, 0);
       },
       author() {

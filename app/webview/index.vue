@@ -5,7 +5,7 @@
     <p class="disclaimer">Businesses and individuals can enjoy the stability and convenience brought by this project. </p>
     <p class="disclaimer" v-if="store.server && store.client">Client version: <span>v{{store.client.version}}</span> - Server version: <span>v{{store.server.version}}</span></p>
     <div class="cmd">
-      <a href="https://github.com/nilppm/npm" class="cta" target="_blank">npm i @nilppm/npm --registry={{host}}</a>
+      <a href="https://github.com/nilppm/cli" class="cta" target="_blank">$ npm install @scope/package --registry={{host}}</a>
     </div>
   </div>
 </template>

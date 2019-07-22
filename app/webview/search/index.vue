@@ -1,8 +1,8 @@
 <template>
 <a-spin :spinning="!state.list.status" tip="正在加载列表数据..." class="list">
-  <div class="wrap">
+  <div class="wrap" v-if="!!state.list.status">
     <flex class="total" blocked align="between" valign="middle">
-      <div class="left">共找到 {{state.list.data.total}} 个{{state.list.t == 1 ? '私有' : '公有'}}包</div>
+      <div class="left"><a-icon type="filter" /> 共找到 <span>{{state.list.data.total}}</span> 个{{state.list.t == 1 ? '私有' : '公有'}}包</div>
       <a-pagination :current="page" :total="state.list.data.total" @change="change" :page-size="20" />
     </flex>
     <div class="items">
@@ -28,6 +28,10 @@
         </flex>
       </div>
     </div>
+    <flex class="total" blocked align="between" valign="middle">
+      <div class="left"><a-icon type="filter" /> 共找到 <span>{{state.list.data.total}}</span> 个{{state.list.t == 1 ? '私有' : '公有'}}包</div>
+      <a-pagination :current="page" :total="state.list.data.total" @change="change" :page-size="20" />
+    </flex>
   </div>
 </a-spin>
 </template>
@@ -54,10 +58,18 @@
   background-color: #fafbfc;
   width: 100%;
   padding: 30px 0;
-  min-height: 50px;
+  min-height: 125px;
   .wrap{
     width: 1140px;
     margin: 0 auto;
+    min-height: 50px;
+    .total{
+      .left{
+        span{
+          color:#FC4D47;
+        }
+      }
+    }
     .items{
       padding-bottom: 15px;
       .item{
@@ -91,7 +103,9 @@
               margin-right: 5px;
             }
           }
-          &:hover{
+        }
+        &:hover{
+          .info{
             opacity: 1;
             .left{
               span.date{

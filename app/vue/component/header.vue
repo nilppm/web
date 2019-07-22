@@ -9,9 +9,18 @@
             <a-select-option value="2"><a-icon type="unlock" /> Public</a-select-option>
           </a-select>
         </a-input-search>
-        <a href="https://github.com/nilppm/cli" class="nav-icon" target="_blank"><a-icon type="api" /></a>
-        <a href="https://github.com/nilppm/npm/blob/master/README.md" class="nav-icon" target="_blank"><a-icon type="read" /></a>
-        <a href="https://github.com/nilppm/npm" class="nav-icon" target="_blank"><a-icon type="github" /></a>
+        <a-tooltip placement="bottom" >
+          <template slot="title">Download CPM Client Interface Line</template>
+          <a href="https://github.com/nilppm/cli" class="nav-icon" target="_blank"><a-icon type="api" /></a>
+        </a-tooltip>
+        <a-tooltip placement="bottom" >
+          <template slot="title">Get Started</template>
+          <a href="https://github.com/nilppm/npm/blob/master/README.md" class="nav-icon" target="_blank"><a-icon type="read" /></a>
+        </a-tooltip>
+        <a-tooltip placement="bottom" >
+          <template slot="title">Get Repository From GitHub</template>
+          <a href="https://github.com/nilppm/npm" class="nav-icon" target="_blank"><a-icon type="github" /></a>
+        </a-tooltip>
       </flex>
     </flex>
   </flex>
