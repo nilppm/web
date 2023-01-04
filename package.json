@@ -8,8 +8,8 @@
     "build": "vue-cli-service build"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.9.2",
-    "@vue/cli-service": "^3.9.2",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "@wox/loader": "^2.0.3",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
